@@ -9,6 +9,8 @@ import Home from './pages/Home';
 import Races from './pages/Races';
 import TestGP from './pages/TestGP';
 import CreateLeaguePage from './pages/CreateLeaguePage';
+import LeaguesPage from './pages/LeaguesPage';
+import LeagueDetailsPage from './pages/LeagueDetailsPage';
 
 // Components
 
@@ -62,6 +64,10 @@ function App() {
       <Route path="*" element={<Navigate to="/" replace />} />
       {/* Create League Page */}
       <Route path="/leagues/create" element={<CreateLeaguePage />} />
+      {/* Leagues Page */}
+      <Route path="/leagues" element={<LeaguesPage />} />
+      {/* League Details Page */}
+       <Route path="/leagues/:leagueId" element={<LeagueDetailsPage />} />
     </Routes>
   );
 }

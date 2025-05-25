@@ -50,15 +50,16 @@ export const CREATE_LEAGUE = gql`
 `;
 
 export const JOIN_LEAGUE = gql`
-  mutation JoinLeague($shared_link: String!) {
-    joinLeague(shared_link: $shared_link) {
-      id
-      name
-      private
-      shared_link
-      active
-    }
+  mutation JoinLeague($leagueId: Int, $shared_link: String) {
+  joinLeague(leagueId: $leagueId, shared_link: $shared_link) {
+    id
+    name
+    private
+    shared_link
+    active
   }
+}
+
 `;
 
 export const CREATE_BET_SELECTION = gql`

@@ -70,6 +70,17 @@ export const GET_MY_LEAGUES = gql`
   }
 `;
 
+export const GET_PUBLIC_LEAGUES = gql`
+  query GetPublicLeagues {
+    getPublicLeagues {
+      id
+      name
+      private
+      active
+    }
+  }
+`;
+
 export const GET_MY_BETS = gql`
   query GetMyBets {
     getMyBets {
@@ -112,6 +123,18 @@ export const GET_PILOTES = gql`
       name
       picture
       name_acronym
+    }
+  }
+`;
+
+export const GET_LEAGUE_USERS = gql`
+  query GetLeagueUsers($leagueId: Int!) {
+    getLeagueUsers(leagueId: $leagueId) {
+      id
+      firstname
+      lastname
+      email
+      role
     }
   }
 `;
