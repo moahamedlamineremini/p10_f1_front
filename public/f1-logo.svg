@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" fill="#000000" rx="128" ry="128"/>
+  <path fill="#FF1E00" d="M128 128h256v80H128z"/>
+  <path fill="#FFFFFF" d="M128 208h256v80H128z"/>
+  <path fill="#FF1E00" d="M128 288h256v80H128z"/>
+  <text x="256" y="280" font-family="'Titillium Web', sans-serif" font-size="144" font-weight="bold" text-anchor="middle" fill="#FFFFFF">F1</text>
+</svg>
