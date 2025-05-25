@@ -7,6 +7,10 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Home from './pages/Home';
 import Races from './pages/Races';
+import TestGP from './pages/TestGP';
+import CreateLeaguePage from './pages/CreateLeaguePage';
+
+// Components
 
 // Protected route component
 interface ProtectedRouteProps {
@@ -52,9 +56,12 @@ function App() {
           </ProtectedRoute>
         } 
       />
+      <Route path="/test-gp" element={<TestGP />} />
       
       {/* Catch-all route */}
       <Route path="*" element={<Navigate to="/" replace />} />
+      {/* Create League Page */}
+      <Route path="/leagues/create" element={<CreateLeaguePage />} />
     </Routes>
   );
 }

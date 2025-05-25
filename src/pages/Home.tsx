@@ -19,15 +19,36 @@ const Home: React.FC = () => {
   const [userLeagues, setUserLeagues] = useState<League[]>([]);
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: false });
 
+  console.log("isAuthenticated", isAuthenticated);
+
   // Get user data
   const { data: userData, loading: loadingUser } = useQuery<{ getMe: User }>(GET_ME, {
     skip: !isAuthenticated,
   });
 
-  // Get next GP
-  const { data: nextGPData, loading: loadingNextGP } = useQuery<{ getNextGP: GP }>(GET_NEXT_GP, {
-    skip: !isAuthenticated,
-  });
+  // Get next GP (with any type to avoid strict typing)
+  const { data: nextGPData, loading: loadingNextGP } = useQuery<any>(GET_NEXT_GP, {
+  skip: !isAuthenticated,
+});
+
+const safeNextGP = nextGPData?.getNextGP
+  ? {
+      ...nextGPData.getNextGP,
+      id_api_races: parseInt(nextGPData.getNextGP.id_api_races, 10), // Convertit en nombre
+      time: nextGPData.getNextGP.time?.length === 13
+        ? new Date(parseInt(nextGPData.getNextGP.time, 10)).toISOString().split('T')[1].slice(0, 8)
+        : nextGPData.getNextGP.time, // Convertit timestamp en HH:mm:ss
+      track: nextGPData.getNextGP.track
+        ? {
+            ...nextGPData.getNextGP.track,
+            picture_country: nextGPData.getNextGP.track.picture_country || 'default-country.png',
+            picture_track: nextGPData.getNextGP.track.picture_track || 'default-track.png',
+          }
+        : null,
+    }
+  : null;
+
+
 
   // Get upcoming races
   const { data: upcomingRacesData, loading: loadingRaces } = useQuery<{ gps: GP[] }>(GET_UPCOMING_GPS, {
@@ -44,7 +65,6 @@ const Home: React.FC = () => {
     if (upcomingRacesData?.gps) {
       setFeaturedRaces(upcomingRacesData.gps.slice(0, 3));
     }
-
     if (leaguesData?.getMyLeagues) {
       setUserLeagues(leaguesData.getMyLeagues.slice(0, 2));
     }
@@ -52,24 +72,22 @@ const Home: React.FC = () => {
 
   // Countdown timer effect
   useEffect(() => {
-    if (nextGPData?.getNextGP) {
-      const { date, time } = nextGPData.getNextGP;
-      
+    if (safeNextGP) {
+      const { date, time } = safeNextGP;
       const timer = setInterval(() => {
         const timeRemaining = getTimeRemaining(date, time);
         setCountdown(timeRemaining);
-        
         if (timeRemaining.isExpired) {
           clearInterval(timer);
         }
       }, 1000);
-
       return () => clearInterval(timer);
     }
-  }, [nextGPData]);
+  }, [safeNextGP]);
 
-  const handlePlaceBet = (raceId: string) => {
-    navigate(`/bet/${raceId}`);
+  const handlePlaceBet = (raceId: string | number) => {
+    const idToSend = typeof raceId === 'string' ? parseInt(raceId, 10) : raceId;
+    navigate(`/bet/${idToSend}`);
   };
 
   const handleViewAllRaces = () => {
@@ -87,22 +105,28 @@ const Home: React.FC = () => {
   const handleJoinLeague = (leagueId: number) => {
     navigate(`/leagues/${leagueId}`);
   };
+  
+  // on faiy un console log pour vérifier les données
+  console.log("Next GP data:", safeNextGP);
+  console.log("Upcoming :", upcomingRacesData?.gps);
+  console.log("User leagues:", userLeagues);
+  console.log("User data:", userData);
+  console.log("Countdown:", countdown);
 
   return (
     <Layout>
       {/* Hero section with next race */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-accent-950">
-          {nextGPData?.getNextGP.track.picture_track && (
+          {safeNextGP?.track?.picture_track && (
             <img
-              src={nextGPData.getNextGP.track.picture_track}
-              alt="Next race track"
+              src="https://a.vsstatic.com/mobile/app/sports/formula-one.jpg"
+              alt="Next race track image"
               className="w-full h-full object-cover opacity-20"
             />
           )}
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-accent-950"></div>
         </div>
-        
         <div className="relative max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
           <div className="md:flex md:items-center md:justify-between">
             <div className="md:w-1/2">
@@ -113,34 +137,30 @@ const Home: React.FC = () => {
                   <>Welcome, {userData?.getMe.firstname || authUser?.firstname}!</>
                 )}
               </h1>
-              
               {loadingNextGP ? (
                 <div className="animate-pulse h-24 bg-accent-800 rounded"></div>
-              ) : nextGPData?.getNextGP ? (
+              ) : safeNextGP ? (
                 <div>
                   <div className="flex items-center mb-2">
                     <Flag size={20} className="text-primary-600 mr-2" />
                     <h2 className="text-xl font-racing text-white">Next Race</h2>
                   </div>
-                  
                   <div className="bg-accent-900 border border-accent-800 p-4 rounded-lg shadow-md">
                     <div className="flex items-center mb-2">
-                      {nextGPData.getNextGP.track.picture_country && (
+                      {safeNextGP.track?.picture_country && (
                         <img
-                          src={nextGPData.getNextGP.track.picture_country}
-                          alt={nextGPData.getNextGP.track.country_name}
+                          src={safeNextGP.track.picture_country}
+                          alt={safeNextGP.track.country_name}
                           className="w-8 h-6 mr-3 object-cover rounded"
                         />
                       )}
                       <h3 className="font-racing font-bold text-xl">
-                        {nextGPData.getNextGP.track.country_name} Grand Prix
+                        {safeNextGP.track?.country_name} Grand Prix
                       </h3>
                     </div>
-                    
                     <p className="text-accent-300 mb-4">
-                      {nextGPData.getNextGP.track.track_name} • {formatDate(nextGPData.getNextGP.date)}
+                      {safeNextGP.track?.track_name} • {formatDate(safeNextGP.date)}
                     </p>
-
                     {/* Countdown Timer */}
                     {!countdown.isExpired && (
                       <div className="mb-4">
@@ -168,10 +188,9 @@ const Home: React.FC = () => {
                         </div>
                       </div>
                     )}
-                    
                     <Button 
                       variant="primary"
-                      onClick={() => handlePlaceBet(nextGPData.getNextGP.id_api_races)}
+                      onClick={() => handlePlaceBet(safeNextGP.id_api_races)}
                       disabled={countdown.isExpired}
                     >
                       {countdown.isExpired ? 'Betting Closed' : 'Place Bet'}
@@ -201,7 +220,6 @@ const Home: React.FC = () => {
             View all <ChevronRight size={16} className="ml-1" />
           </Button>
         </div>
-
         {loadingRaces ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map(i => (
@@ -257,7 +275,6 @@ const Home: React.FC = () => {
             </Button>
           </div>
         </div>
-
         {loadingLeagues ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[1, 2].map(i => (
@@ -313,7 +330,7 @@ const Home: React.FC = () => {
               <Button 
                 variant="primary"
                 size="lg"
-                onClick={handlePlaceBet}
+                onClick={() => safeNextGP && handlePlaceBet(safeNextGP.id_api_races)}
               >
                 <Trophy size={18} className="mr-2" /> Place Bet
               </Button>

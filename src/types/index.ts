@@ -68,7 +68,7 @@ export interface GP {
   id_api_races: string;
   season: string;
   date: string;
-  time: string;
+  time: string | number;  // Accepte les deux formats
   track: Track;
 }
 
