@@ -6,7 +6,7 @@ import {
   GET_LIGUE_CLASSEMENT,
 } from '../graphql/queries';
 import Layout from '../components/layout/Layout';
-import Select from '../components/ui/Select';
+import Select from '../components/ui/Selectstanding';
 import { Trophy } from 'lucide-react';
 
 const Standing: React.FC = () => {
