@@ -17,11 +17,11 @@ const RaceCard: React.FC<RaceCardProps> = ({ race, onPlaceBet }) => {
   
   // Default track image if none provided
   const trackImage = track.picture_track || 
-    `https://images.pexels.com/photos/12771905/pexels-photo-12771905.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`;
+    `https://media.npr.org/assets/img/2023/11/18/gettyimages-1800093928-a35232af995d98d6856e71add88fc72ee06d112d.jpg?s=900&c=85&f=webp`;
   
   // Default flag image if none provided
   const flagImage = track.picture_country ||
-    `https://images.pexels.com/photos/4151028/pexels-photo-4151028.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1`;
+    `https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Flag_of_Monaco.svg/langfr-500px-Flag_of_Monaco.svg.png`;
 
   return (
     <Card hover className="h-full">
