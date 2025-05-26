@@ -34,19 +34,18 @@ const Home: React.FC = () => {
 const safeNextGP = nextGPData?.getNextGP
   ? {
       ...nextGPData.getNextGP,
-      id_api_races: parseInt(nextGPData.getNextGP.id_api_races, 10), // Convertit en nombre
-      time: nextGPData.getNextGP.time?.length === 13
-        ? new Date(parseInt(nextGPData.getNextGP.time, 10)).toISOString().split('T')[1].slice(0, 8)
-        : nextGPData.getNextGP.time, // Convertit timestamp en HH:mm:ss
-      track: nextGPData.getNextGP.track
-        ? {
-            ...nextGPData.getNextGP.track,
-            picture_country: nextGPData.getNextGP.track.picture_country || 'default-country.png',
-            picture_track: nextGPData.getNextGP.track.picture_track || 'default-track.png',
-          }
-        : null,
+      id_api_races: parseInt(nextGPData.getNextGP.id_api_races, 10),
+      time: nextGPData.getNextGP.time
+        ? new Date(nextGPData.getNextGP.time).toISOString().split('T')[1].slice(0, 8)
+        : '', // <-- extrait juste HH:MM:SS
+      track: {
+        ...nextGPData.getNextGP.track,
+        picture_country: nextGPData.getNextGP.track.picture_country || 'default-country.png',
+        picture_track: nextGPData.getNextGP.track.picture_track || 'default-track.png',
+      },
     }
   : null;
+
 
 
 

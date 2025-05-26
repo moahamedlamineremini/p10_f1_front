@@ -36,21 +36,21 @@ export const GET_NEXT_GP = gql`
 `;
 
 export const GET_UPCOMING_GPS = gql`
-  query GetGPs($season: String) {
-    gps(season: $season) {
-      id_api_races
-      season
-      date
-      time
-      track {
-        id_api_tracks
-        country_name
-        track_name
-        picture_country
-        picture_track
-      }
+  query GetUpcomingGPs {
+  getUpcomingGPs {
+    id_api_races
+    season
+    date
+    time
+    track {
+      id_api_tracks
+      country_name
+      track_name
+      picture_country
+      picture_track
     }
   }
+}
 `;
 
 export const GET_MY_LEAGUES = gql`
@@ -141,3 +141,92 @@ export const GET_LEAGUE_USERS = gql`
     }
   }
 `;
+
+
+
+export const GET_ALL_GPS = gql`
+  query GetAllGPs {
+    getAllGPs {
+      id_api_races
+      season
+      date
+      time
+      track {
+        id_api_tracks
+        country_name
+        track_name
+        picture_country
+        picture_track
+      }
+    }
+  }
+`;
+
+export const GET_GP = gql`
+  query GetGP($id: ID!) {
+    gp(id: $id) {
+      id_api_races
+      track {
+        country_name
+        track_name
+        picture_country
+      }
+    }
+  }
+`;
+
+export const GET_PAST_GPS = gql`
+  query GetPastGPs {
+    getPastGPs {
+      id_api_races
+      season
+      date
+      time
+      track {
+        id_api_tracks
+        country_name
+        track_name
+        picture_country
+        picture_track
+      }
+    }
+  }
+`;
+export const GET_GP_CLASSEMENT = gql`
+query GetClassementByGP($gpId: String!) {
+  getClassementByGP(gpId: $gpId) {
+    position
+    isDNF
+    pilote {
+      id_api_pilotes
+      name
+      picture
+      name_acronym
+    }
+    ecurie {
+      id_api_ecuries
+      name
+      logo
+      color
+    }
+  }
+}
+`;
+
+export const GET_LIGUE_CLASSEMENT = gql`
+query ClassementLigue($leagueId: ID!) {
+  classementLigue(leagueId: $leagueId) {
+    totalPoints
+    user {
+      id
+      firstname
+      lastname
+      email
+      avatar {
+        picture_avatar
+      }
+    }
+  }
+}
+`;
+
