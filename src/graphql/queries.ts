@@ -188,3 +188,40 @@ export const GET_PAST_GPS = gql`
     }
   }
 `;
+export const GET_GP_CLASSEMENT = gql`
+query GetClassementByGP($gpId: String!) {
+  getClassementByGP(gpId: $gpId) {
+    position
+    isDNF
+    pilote {
+      id_api_pilotes
+      name
+      picture
+      name_acronym
+    }
+    ecurie {
+      id_api_ecuries
+      name
+      logo
+      color
+    }
+  }
+}
+`;
+
+export const GET_LIGUE_CLASSEMENT = gql`
+query ClassementLigue($leagueId: ID!) {
+  classementLigue(leagueId: $leagueId) {
+    totalPoints
+    user {
+      id
+      firstname
+      lastname
+      email
+      avatar {
+        picture_avatar
+      }
+    }
+  }
+}
+`;

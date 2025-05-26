@@ -11,9 +11,10 @@ import TestGP from './pages/TestGP';
 import CreateLeaguePage from './pages/CreateLeaguePage';
 import LeaguesPage from './pages/LeaguesPage';
 import LeagueDetailsPage from './pages/LeagueDetailsPage';
+import Standing from './pages/Standing';
+
 import Profile from './pages/Profile';
 import BetPage from './pages/BetPage'; 
-
 // Components
 
 // Protected route component
@@ -57,6 +58,14 @@ function App() {
         element={
           <ProtectedRoute>
             <Races />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/standings" 
+        element={
+          <ProtectedRoute>
+            <Standing />
           </ProtectedRoute>
         } 
       />
