@@ -138,6 +138,8 @@ export const GET_LEAGUE_USERS = gql`
     }
   }
 `;
+
+
 export const GET_ALL_GPS = gql`
   query GetAllGPs {
     getAllGPs {
@@ -151,6 +153,19 @@ export const GET_ALL_GPS = gql`
         track_name
         picture_country
         picture_track
+      }
+    }
+  }
+`;
+
+export const GET_GP = gql`
+  query GetGP($id: ID!) {
+    gp(id: $id) {
+      id_api_races
+      track {
+        country_name
+        track_name
+        picture_country
       }
     }
   }
@@ -172,7 +187,8 @@ export const GET_PAST_GPS = gql`
       }
     }
   }
-`;export const GET_GP_CLASSEMENT = gql`
+`;
+export const GET_GP_CLASSEMENT = gql`
 query GetClassementByGP($gpId: String!) {
   getClassementByGP(gpId: $gpId) {
     position

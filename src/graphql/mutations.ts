@@ -62,35 +62,7 @@ export const JOIN_LEAGUE = gql`
 
 `;
 
-export const CREATE_BET_SELECTION = gql`
-  mutation CreateBetSelection(
-    $gpId: String!
-    $piloteP10Id: Int!
-    $piloteDNFId: Int!
-  ) {
-    createBetSelection(
-      gpId: $gpId
-      piloteP10Id: $piloteP10Id
-      piloteDNFId: $piloteDNFId
-    ) {
-      id
-      gp {
-        id_api_races
-        season
-        date
-        time
-      }
-      pilote_p10 {
-        id_api_pilotes
-        name
-      }
-      pilote_dnf {
-        id_api_pilotes
-        name
-      }
-    }
-  }
-`;
+
 
 export const UPDATE_BET_SELECTION = gql`
   mutation UpdateBetSelection(
@@ -116,5 +88,48 @@ export const UPDATE_BET_SELECTION = gql`
         name
       }
     }
+  }
+`;
+export const UPDATE_USER = gql`
+  mutation UpdateUser($firstname: String, $lastname: String, $password: String) {
+    updateUser(firstname: $firstname, lastname: $lastname, password: $password) {
+      id
+      firstname
+      lastname
+      email
+    }
+  }
+`;
+
+export const DELETE_USER = gql`
+  mutation {
+    deleteUser
+  }
+`;
+export const CREATE_BET_SELECTION = gql`
+  mutation CreateBetSelection($gpId: String!, $piloteP10Id: Int!, $piloteDNFId: Int!) {
+    createBetSelection(gpId: $gpId, piloteP10Id: $piloteP10Id, piloteDNFId: $piloteDNFId) {
+      id
+      gp {
+        id_api_races
+        date
+        time
+        track {
+          track_name
+        }
+      }
+      pilote_p10 {
+        name
+      }
+      pilote_dnf {
+        name
+      }
+    }
+  }
+`;
+
+export const DELETE_BET_SELECTION = gql`
+  mutation DeleteBetSelection($betId: Int!) {
+    deleteBetSelection(betId: $betId)
   }
 `;
