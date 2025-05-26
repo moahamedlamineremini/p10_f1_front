@@ -50,6 +50,10 @@ const Login: React.FC = () => {
 
       if (data?.loginUser) {
         login(data.loginUser.token, data.loginUser.user);
+        // mettre le token dans le localStorage
+        localStorage.setItem('token', data.loginUser.token);
+        console.log(localStorage.getItem('token')); // doit afficher le JWT
+
         navigate('/home');
       }
     } catch (err) {

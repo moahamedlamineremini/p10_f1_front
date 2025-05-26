@@ -11,6 +11,7 @@ import TestGP from './pages/TestGP';
 import CreateLeaguePage from './pages/CreateLeaguePage';
 import LeaguesPage from './pages/LeaguesPage';
 import LeagueDetailsPage from './pages/LeagueDetailsPage';
+import TestLeagueUsersPage from './pages/TestLeagueUsersPage';
 
 // Components
 
@@ -68,6 +69,9 @@ function App() {
       <Route path="/leagues" element={<LeaguesPage />} />
       {/* League Details Page */}
        <Route path="/leagues/:leagueId" element={<LeagueDetailsPage />} />
+      {/* Test League Users Page */}
+      <Route path="/test-league-users" element={<TestLeagueUsersPage />} />
+
     </Routes>
   );
 }
