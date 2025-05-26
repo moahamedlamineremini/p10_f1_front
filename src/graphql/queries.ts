@@ -131,13 +131,17 @@ export const GET_LEAGUE_USERS = gql`
   query GetLeagueUsers($leagueId: Int!) {
     getLeagueUsers(leagueId: $leagueId) {
       id
-      firstname
-      lastname
-      email
       role
+      user {
+        id
+        email
+        firstname
+        lastname
+      }
     }
   }
 `;
+
 
 
 export const GET_ALL_GPS = gql`
@@ -225,3 +229,4 @@ query ClassementLigue($leagueId: ID!) {
   }
 }
 `;
+

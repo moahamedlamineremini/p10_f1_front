@@ -21,7 +21,10 @@ const LeaguesPage: React.FC = () => {
         return;
       }
 
-      const response = await joinLeague({ variables: { leagueId } });
+      const response = await joinLeague({
+        variables: { leagueId: leagueId}
+      });
+
       const league = response.data.joinLeague;
       navigate(`/leagues/${league.id}`);
     } catch (err: any) {
@@ -36,7 +39,10 @@ const LeaguesPage: React.FC = () => {
     }
     try {
       setJoinPrivateLoading(true);
-      const response = await joinLeague({ variables: { shared_link: sharedLink.trim() } });
+      const response = await joinLeague({
+        variables: { shared_link: sharedLink.trim() }
+      });
+
       const league = response.data.joinLeague;
       navigate(`/leagues/${league.id}`);
     } catch (err: any) {

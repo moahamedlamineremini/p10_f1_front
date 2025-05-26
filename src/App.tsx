@@ -11,7 +11,11 @@ import TestGP from './pages/TestGP';
 import CreateLeaguePage from './pages/CreateLeaguePage';
 import LeaguesPage from './pages/LeaguesPage';
 import LeagueDetailsPage from './pages/LeagueDetailsPage';
+
+import TestLeagueUsersPage from './pages/TestLeagueUsersPage';
+
 import Standing from './pages/Standing';
+
 
 import Profile from './pages/Profile';
 import BetPage from './pages/BetPage'; 
@@ -79,6 +83,10 @@ function App() {
       <Route path="/leagues" element={<LeaguesPage />} />
       {/* League Details Page */}
        <Route path="/leagues/:leagueId" element={<LeagueDetailsPage />} />
+
+      {/* Test League Users Page */}
+      <Route path="/test-league-users" element={<TestLeagueUsersPage />} />
+
        <Route
         path="/profile"
         element={
@@ -95,6 +103,7 @@ function App() {
           </ProtectedRoute>
         } 
       />
+
 
     </Routes>
   );
