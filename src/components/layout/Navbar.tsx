@@ -67,6 +67,14 @@ const Navbar: React.FC = () => {
                   <Trophy size={18} className="mr-1" />
                   Standings
                 </Link>
+                <Link
+                  to="/profile"
+                  className="text-accent-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center mr-2"
+                >
+                  <User size={18} className="mr-1" />
+                  Profil
+                </Link>
+
                 <div className="pl-4 ml-4 border-l border-accent-800 flex items-center">
                   <div className="mr-3">
                     <div className="text-sm font-medium text-white">
@@ -177,6 +185,17 @@ const Navbar: React.FC = () => {
                     Standings
                   </div>
                 </Link>
+                <Link
+  to="/profile"
+  className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800"
+  onClick={() => setMobileMenuOpen(false)}
+>
+  <div className="flex items-center">
+    <User size={18} className="mr-2" />
+    Profil
+  </div>
+</Link>
+
                 <button
                   onClick={handleLogout}
                   className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800"

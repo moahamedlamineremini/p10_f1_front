@@ -11,6 +11,8 @@ import TestGP from './pages/TestGP';
 import CreateLeaguePage from './pages/CreateLeaguePage';
 import LeaguesPage from './pages/LeaguesPage';
 import LeagueDetailsPage from './pages/LeagueDetailsPage';
+import Profile from './pages/Profile';
+import BetPage from './pages/BetPage'; 
 
 // Components
 
@@ -68,6 +70,23 @@ function App() {
       <Route path="/leagues" element={<LeaguesPage />} />
       {/* League Details Page */}
        <Route path="/leagues/:leagueId" element={<LeagueDetailsPage />} />
+       <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        }
+        />
+        <Route 
+        path="/bet/:gpId" 
+        element={
+          <ProtectedRoute>
+            <BetPage /> 
+          </ProtectedRoute>
+        } 
+      />
+
     </Routes>
   );
 }
