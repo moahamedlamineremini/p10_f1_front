@@ -285,6 +285,7 @@ const handleJoinLeague = (leagueId: number) => {
           </div>
         ) : userLeagues.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
             {userLeagues.map(league => {
   const isOwnerOfPrivateLeague = league.private ;
 
