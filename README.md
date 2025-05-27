@@ -22,16 +22,47 @@ Une application web de paris sur la Formule 1, construite avec React, TypeScript
 ## 📁 Structure du projet
 
 ```
-src/
-├── components/     # Composants réutilisables (UI, Layout, RaceCard, etc.)
-├── contexts/       # Contexte d’authentification (AuthContext)
-├── graphql/        # Requêtes et mutations GraphQL
-├── pages/          # Pages principales : Login, Signup, Home, etc.
-├── types/          # Déclarations de types TypeScript
-├── utils/          # Fonctions utilitaires
-├── App.tsx         # Définition des routes de l’application
-├── main.tsx        # Point d’entrée principal + ApolloProvider
-└── index.html      # Fichier HTML de base
+📁 Projet F1 App
+│
+├── 🧩 Components/
+│   ├── 🎨 ui/                      → Bouton, Input, Card, etc.
+│   └── 📇 layout/                  → Navbar, Layout principal
+│
+├── 📄 Pages/
+│   ├── 🚪 auth/
+│   │   ├── LoginPage.tsx
+│   │   └── SignupPage.tsx
+│   ├── 🏠 home/
+│   │   ├── HomePage.tsx
+│   │   └── BetPage.tsx
+│   ├── 🏆 leagues/
+│   │   ├── LeaguesPage.tsx
+│   │   ├── LeagueDetailsPage.tsx
+│   │   └── CreateLeaguePage.tsx
+│   ├── 🏁 races/
+│   │   ├── RacesPage.tsx
+│   │   └── StandingPage.tsx
+│   └── 🛠️ utils/
+│       ├── TestGP.tsx
+│       └── TestLeagueUsersPage.tsx
+│
+├── 🔐 Contexts/
+│   ├── 📡 AuthContext.tsx          → Gestion de l’authentification
+│   └── 🌟 ApolloContext.tsx        → Configuration Apollo Client
+│
+├── ⚡ GraphQL/
+│   ├── ❓ queries.ts               → Requêtes GraphQL centralisées
+│   └── ✍️ mutations.ts             → Mutations GraphQL centralisées
+│
+├── 🧾 Types/
+│   └── 📦 index.ts                 → Définition des types TypeScript globaux
+│
+├── ⚙️ Utils/
+│   └── 📅 dateUtils.ts            → Fonctions utilitaires pour manipuler les dates
+│
+├── 🧭 App.tsx                      → Définition des routes
+├── 🚀 main.tsx                    → Point d’entrée principal + configuration
+└── 🎨 tailwind.config.js          → Configuration de Tailwind CSS
 ```
 
 ## 🔧 Installation et lancement
