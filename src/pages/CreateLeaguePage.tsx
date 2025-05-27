@@ -57,7 +57,7 @@ const CreateLeaguePage: React.FC = () => {
           </label>
 
           <div className="text-accent-300">
-            <p className="mb-2 font-semibold">Paramètres:</p>
+            <p className="mb-2 font-semibold">Confidentialité :</p>
             <div className="flex gap-6">
               <label className="inline-flex items-center cursor-pointer">
                 <input

@@ -12,19 +12,20 @@ const Races: React.FC = () => {
   const navigate = useNavigate();
   const [races, setRaces] = useState<GP[]>([]);
   const [filter, setFilter] = useState<'all' | 'upcoming' | 'past'>('all');
+  const [searchTerm, setSearchTerm] = useState('');
   const currentYear = new Date().getFullYear().toString();
 
-  // Associe les filtres à leurs requêtes GraphQL
   const queries = {
     all: GET_ALL_GPS,
     upcoming: GET_UPCOMING_GPS,
     past: GET_PAST_GPS,
   };
 
-  // Exécute dynamiquement la requête en fonction du filtre
-  const { data, loading, refetch } = useQuery<{ getAllGPs?: GP[], getUpcomingGPs?: GP[], getPastGPs?: GP[] }>(
-    queries[filter]
-  );
+  const { data, loading } = useQuery<{
+    getAllGPs?: GP[];
+    getUpcomingGPs?: GP[];
+    getPastGPs?: GP[];
+  }>(queries[filter]);
 
   useEffect(() => {
     if (data) {
@@ -44,19 +45,22 @@ const Races: React.FC = () => {
     navigate(`/bet/${raceId}`);
   };
 
+  const filteredRaces = races.filter((race) =>
+    race.track.track_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    race.track.country_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Layout>
       <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
           <div className="flex items-center mb-4 sm:mb-0">
             <Calendar size={24} className="text-primary-600 mr-2" />
-            <h1 className="text-2xl font-racing font-bold">
-              Formula 1 Calendar {currentYear}
+            <h1 className="text-2xl font-racing font-bold text-white">
+              Calendrier F1 {currentYear}
             </h1>
           </div>
 
-          {/* Filter buttons */}
           <div className="flex items-center space-x-2 bg-accent-900 p-1 rounded-lg">
             <Filter size={16} className="text-accent-400 ml-2" />
             <Button
@@ -64,26 +68,35 @@ const Races: React.FC = () => {
               size="sm"
               onClick={() => setFilter('all')}
             >
-              All Races
+              Toutes
             </Button>
             <Button
               variant={filter === 'upcoming' ? 'primary' : 'ghost'}
               size="sm"
               onClick={() => setFilter('upcoming')}
             >
-              Upcoming
+              À venir
             </Button>
             <Button
               variant={filter === 'past' ? 'primary' : 'ghost'}
               size="sm"
               onClick={() => setFilter('past')}
             >
-              Past
+              Passées
             </Button>
           </div>
         </div>
 
-        {/* Races grid */}
+        <div className="mb-6">
+          <input
+            type="text"
+            placeholder="Rechercher une course par nom ou pays"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full sm:max-w-sm px-4 py-2 rounded-md bg-accent-800 text-white border border-accent-600 placeholder-accent-400"
+          />
+        </div>
+
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((i) => (
@@ -93,20 +106,23 @@ const Races: React.FC = () => {
               ></div>
             ))}
           </div>
-        ) : races.length > 0 ? (
+        ) : filteredRaces.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {races.map((race) => (
-              <RaceCard
-                key={race.id_api_races}
-                race={race}
-                onPlaceBet={handlePlaceBet}
-              />
-            ))}
+            {filteredRaces.map((race) => {
+              const isPastRace = new Date(`${race.date}T${race.time}`) < new Date();
+              return (
+                <RaceCard
+                  key={race.id_api_races}
+                  race={race}
+                  onPlaceBet={!isPastRace ? () => handlePlaceBet(race.id_api_races) : undefined}
+                />
+              );
+            })}
           </div>
         ) : (
           <div className="text-center py-12">
             <p className="text-accent-400">
-              No races found for the selected filter.
+              Aucune course trouvée pour ce filtre.
             </p>
           </div>
         )}
