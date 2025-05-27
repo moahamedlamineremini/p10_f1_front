@@ -295,7 +295,7 @@ const handleJoinLeague = (leagueId: number) => {
       league={league}
       onJoin={handleJoinLeague}
       showInviteLink={isOwnerOfPrivateLeague}
-      onViewResults={(leagueId: number) => navigate(`/leagues/${leagueId}/standings`)}
+      onViewResults={(leagueId: number) => navigate(`/standings?leagueId=${leagueId}`)}
     />
   );
 })}
