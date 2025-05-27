@@ -19,7 +19,6 @@ const Home: React.FC = () => {
   const [userLeagues, setUserLeagues] = useState<League[]>([]);
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0, isExpired: false });
 
-  console.log("isAuthenticated", isAuthenticated);
 
   // Get user data
   const { data: userData, loading: loadingUser } = useQuery<{ getMe: User }>(GET_ME, {
@@ -56,16 +55,18 @@ const safeNextGP = nextGPData?.getNextGP
   });
 
   // Get user leagues
-  const { data: leaguesData, loading: loadingLeagues } = useQuery<{ getMyLeagues: League[] }>(GET_MY_LEAGUES, {
-    skip: !isAuthenticated,
-  });
+  const { data: leaguesData, loading: loadingLeagues, refetch: refetchLeagues } = useQuery<{
+  getMyLeagues: League[];
+}>(GET_MY_LEAGUES, {
+  skip: !isAuthenticated,
+});
 
   useEffect(() => {
     if (upcomingRacesData?.gps) {
       setFeaturedRaces(upcomingRacesData.gps.slice(0, 3));
     }
     if (leaguesData?.getMyLeagues) {
-      setUserLeagues(leaguesData.getMyLeagues.slice(0, 2));
+      setUserLeagues(leaguesData.getMyLeagues.slice(0, 9));
     }
   }, [upcomingRacesData, leaguesData]);
 
@@ -101,16 +102,18 @@ const safeNextGP = nextGPData?.getNextGP
     navigate('/leagues/create');
   };
 
-  const handleJoinLeague = (leagueId: number) => {
-    navigate(`/leagues/${leagueId}`);
-  };
+const handleJoinLeague = (leagueId: number) => {
+  console.log("Navigating to league:", leagueId);
+  navigate(`/leagues/${leagueId}`);
   
-  // on faiy un console log pour vérifier les données
-  console.log("Next GP data:", safeNextGP);
-  console.log("Upcoming :", upcomingRacesData?.gps);
-  console.log("User leagues:", userLeagues);
-  console.log("User data:", userData);
-  console.log("Countdown:", countdown);
+  if (refetchLeagues) {
+    console.log("Trying to refetch leagues...");
+    refetchLeagues();
+  } else {
+    console.warn("refetchLeagues is undefined");
+  }
+};
+
 
   return (
     <Layout>
@@ -282,13 +285,20 @@ const safeNextGP = nextGPData?.getNextGP
           </div>
         ) : userLeagues.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {userLeagues.map(league => (
-              <LeagueCard 
-                key={league.id} 
-                league={league} 
-                onJoin={handleJoinLeague}
-              />
-            ))}
+            {userLeagues.map(league => {
+  const isOwnerOfPrivateLeague = league.private ;
+
+  return (
+    <LeagueCard 
+      key={league.id} 
+      league={league}
+      onJoin={handleJoinLeague}
+      showInviteLink={isOwnerOfPrivateLeague}
+      onViewResults={(leagueId: number) => navigate(`/leagues/${leagueId}/standings`)}
+    />
+  );
+})}
+
           </div>
         ) : (
           <Card>
