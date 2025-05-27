@@ -17,36 +17,29 @@ const LeaguesPage: React.FC = () => {
   const handleJoin = async (leagueId: number, isPrivate: boolean) => {
     try {
       if (isPrivate) {
-        alert("Pour rejoindre cette ligue privée, veuillez utiliser le formulaire en bas avec le lien d'invitation.");
+        alert("Pour rejoindre cette ligue privée, utilisez le lien d'invitation ci-dessous.");
         return;
       }
-
-      const response = await joinLeague({
-        variables: { leagueId: leagueId}
-      });
-
+      const response = await joinLeague({ variables: { leagueId } });
       const league = response.data.joinLeague;
       navigate(`/leagues/${league.id}`);
     } catch (err: any) {
-      alert('Erreur lors du rejoint : ' + err.message);
+      alert('Erreur : ' + err.message);
     }
   };
 
   const handleJoinPrivate = async () => {
     if (!sharedLink.trim()) {
-      alert('Veuillez entrer un lien d\'invitation.');
+      alert('Veuillez entrer un lien.');
       return;
     }
     try {
       setJoinPrivateLoading(true);
-      const response = await joinLeague({
-        variables: { shared_link: sharedLink.trim() }
-      });
-
+      const response = await joinLeague({ variables: { shared_link: sharedLink.trim() } });
       const league = response.data.joinLeague;
       navigate(`/leagues/${league.id}`);
     } catch (err: any) {
-      alert('Erreur lors du rejoint : ' + err.message);
+      alert('Erreur : ' + err.message);
     } finally {
       setJoinPrivateLoading(false);
     }
@@ -56,15 +49,15 @@ const LeaguesPage: React.FC = () => {
     navigate(`/leagues/${leagueId}`);
   };
 
-  if (loading) return <p className="text-white text-center mt-10">Chargement des ligues publiques...</p>;
+  if (loading) return <p className="text-white text-center mt-10">Chargement des ligues...</p>;
   if (error) return <p className="text-red-500 text-center mt-10">Erreur : {error.message}</p>;
 
   return (
     <Layout>
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-white mb-6">Ligues publiques disponibles</h1>
+      <div className="max-w-4xl mx-auto px-4 py-10">
+        <h1 className="text-3xl font-bold text-white mb-6">Ligues Publiques</h1>
         {data.getPublicLeagues.length === 0 ? (
-          <p className="text-accent-300">Aucune ligue publique n'est disponible pour le moment.</p>
+          <p className="text-accent-300">Aucune ligue publique pour l'instant.</p>
         ) : (
           <ul className="space-y-4 mb-10">
             {data.getPublicLeagues.map((league: any) => (
@@ -77,7 +70,7 @@ const LeaguesPage: React.FC = () => {
                   {league.avatar?.url && (
                     <img
                       src={league.avatar.url}
-                      alt={`Logo de la ligue ${league.name}`}
+                      alt={`Logo ${league.name}`}
                       className="w-12 h-12 rounded-full object-cover"
                     />
                   )}
@@ -100,7 +93,7 @@ const LeaguesPage: React.FC = () => {
           <h2 className="text-white text-2xl mb-4">Rejoindre une ligue privée</h2>
           <input
             type="text"
-            placeholder="Entrez le lien d'invitation"
+            placeholder="Lien d'invitation"
             value={sharedLink}
             onChange={(e) => setSharedLink(e.target.value)}
             className="w-full p-2 mb-4 rounded border border-gray-700 bg-gray-800 text-white"
@@ -110,7 +103,7 @@ const LeaguesPage: React.FC = () => {
             onClick={handleJoinPrivate}
             disabled={joinPrivateLoading}
           >
-            {joinPrivateLoading ? 'Rejoindre...' : 'Rejoindre la ligue privée'}
+            {joinPrivateLoading ? 'Connexion...' : 'Rejoindre la ligue'}
           </Button>
         </div>
       </div>

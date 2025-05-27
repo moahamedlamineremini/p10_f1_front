@@ -229,4 +229,13 @@ query ClassementLigue($leagueId: ID!) {
   }
 }
 `;
-
+export const GET_GP_PILOTES = gql`
+  query GetPilotesByGP($gpId: String!) {
+    getPilotesByGP(gpId: $gpId) {
+      id_api_pilotes
+      name
+      picture
+      name_acronym
+    }
+  }
+`;

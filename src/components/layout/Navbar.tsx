@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import Button from '../ui/Button';
-import { 
-  Flag, 
-  Trophy, 
-  Users, 
-  LogOut, 
-  Menu, 
-  X, 
+import {
+  Flag,
+  Trophy,
+  Users,
+  LogOut,
+  Menu,
+  X,
   User,
-  Home 
+  Home,
 } from 'lucide-react';
 
 const Navbar: React.FC = () => {
@@ -31,65 +31,35 @@ const Navbar: React.FC = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <Flag size={24} className="text-primary-600 mr-2" />
-              <span className="font-racing font-bold text-xl">F1 Bets</span>
+              <span className="font-racing font-bold text-xl">F1 Paris</span>
             </Link>
           </div>
 
-          {/* Desktop menu */}
           <div className="hidden md:flex md:items-center md:space-x-4">
             {isAuthenticated ? (
               <>
-                <Link 
-                  to="/home"
-                  className="text-accent-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center"
-                >
-                  <Home size={18} className="mr-1" />
-                  Home
+                <Link to="/home" className="text-accent-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                  <Home size={18} className="mr-1" /> Accueil
                 </Link>
-                <Link 
-                  to="/races"
-                  className="text-accent-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center"
-                >
-                  <Flag size={18} className="mr-1" />
-                  Races
+                <Link to="/races" className="text-accent-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                  <Flag size={18} className="mr-1" /> Courses
                 </Link>
-                <Link 
-                  to="/leagues"
-                  className="text-accent-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center"
-                >
-                  <Users size={18} className="mr-1" />
-                  Leagues
+                <Link to="/leagues" className="text-accent-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                  <Users size={18} className="mr-1" /> Ligues
                 </Link>
-                <Link 
-                  to="/standings"
-                  className="text-accent-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center"
-                >
-                  <Trophy size={18} className="mr-1" />
-                  Standings
+                <Link to="/standings" className="text-accent-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                  <Trophy size={18} className="mr-1" /> Classement
                 </Link>
-                <Link
-                  to="/profile"
-                  className="text-accent-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center mr-2"
-                >
-                  <User size={18} className="mr-1" />
-                  Profil
+                <Link to="/profile" className="text-accent-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center mr-2">
+                  <User size={18} className="mr-1" /> Profil
                 </Link>
 
                 <div className="pl-4 ml-4 border-l border-accent-800 flex items-center">
                   <div className="mr-3">
-                    <div className="text-sm font-medium text-white">
-                      {user?.firstname} {user?.lastname}
-                    </div>
-                    <div className="text-xs text-accent-400">
-                      {user?.email}
-                    </div>
+                    <div className="text-sm font-medium text-white">{user?.firstname} {user?.lastname}</div>
+                    <div className="text-xs text-accent-400">{user?.email}</div>
                   </div>
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={handleLogout}
-                    className="text-accent-400 hover:text-white"
-                  >
+                  <Button variant="ghost" size="sm" onClick={handleLogout} className="text-accent-400 hover:text-white">
                     <LogOut size={18} />
                   </Button>
                 </div>
@@ -97,36 +67,26 @@ const Navbar: React.FC = () => {
             ) : (
               <>
                 <Link to="/login">
-                  <Button variant="outline" size="sm">
-                    Login
-                  </Button>
+                  <Button variant="outline" size="sm">Connexion</Button>
                 </Link>
                 <Link to="/signup">
-                  <Button variant="primary" size="sm">
-                    Sign up
-                  </Button>
+                  <Button variant="primary" size="sm">Créer un compte</Button>
                 </Link>
               </>
             )}
           </div>
 
-          {/* Mobile menu button */}
           <div className="flex items-center md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-accent-400 hover:text-white hover:bg-accent-900 focus:outline-none"
             >
-              {mobileMenuOpen ? (
-                <X size={24} />
-              ) : (
-                <Menu size={24} />
-              )}
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-accent-900 border-t border-accent-800">
           <div className="px-2 pt-2 pb-3 space-y-1">
@@ -136,93 +96,42 @@ const Navbar: React.FC = () => {
                   <div className="flex items-center">
                     <User size={18} className="text-accent-400 mr-2" />
                     <div>
-                      <div className="text-sm font-medium text-white">
-                        {user?.firstname} {user?.lastname}
-                      </div>
-                      <div className="text-xs text-accent-400 truncate max-w-[200px]">
-                        {user?.email}
-                      </div>
+                      <div className="text-sm font-medium text-white">{user?.firstname} {user?.lastname}</div>
+                      <div className="text-xs text-accent-400 truncate max-w-[200px]">{user?.email}</div>
                     </div>
                   </div>
                 </div>
-                <Link
-                  to="/home"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <div className="flex items-center">
-                    <Home size={18} className="mr-2" />
-                    Home
-                  </div>
+                <Link to="/home" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800" onClick={() => setMobileMenuOpen(false)}>
+                  <div className="flex items-center"><Home size={18} className="mr-2" /> Accueil</div>
                 </Link>
-                <Link
-                  to="/races"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <div className="flex items-center">
-                    <Flag size={18} className="mr-2" />
-                    Races
-                  </div>
+                <Link to="/races" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800" onClick={() => setMobileMenuOpen(false)}>
+                  <div className="flex items-center"><Flag size={18} className="mr-2" /> Courses</div>
                 </Link>
-                <Link
-                  to="/leagues"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <div className="flex items-center">
-                    <Users size={18} className="mr-2" />
-                    Leagues
-                  </div>
+                <Link to="/leagues" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800" onClick={() => setMobileMenuOpen(false)}>
+                  <div className="flex items-center"><Users size={18} className="mr-2" /> Ligues</div>
                 </Link>
-                <Link
-                  to="/standings"
-                  className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <div className="flex items-center">
-                    <Trophy size={18} className="mr-2" />
-                    Standings
-                  </div>
+                <Link to="/standings" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800" onClick={() => setMobileMenuOpen(false)}>
+                  <div className="flex items-center"><Trophy size={18} className="mr-2" /> Classement</div>
                 </Link>
-                <Link
-  to="/profile"
-  className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800"
-  onClick={() => setMobileMenuOpen(false)}
->
-  <div className="flex items-center">
-    <User size={18} className="mr-2" />
-    Profil
-  </div>
-</Link>
-
+                <Link to="/profile" className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800" onClick={() => setMobileMenuOpen(false)}>
+                  <div className="flex items-center"><User size={18} className="mr-2" /> Profil</div>
+                </Link>
                 <button
                   onClick={handleLogout}
                   className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-accent-800"
                 >
                   <div className="flex items-center text-primary-500">
-                    <LogOut size={18} className="mr-2" />
-                    Logout
+                    <LogOut size={18} className="mr-2" /> Déconnexion
                   </div>
                 </button>
               </>
             ) : (
               <div className="flex flex-col gap-2 p-2">
-                <Link 
-                  to="/login" 
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Button variant="outline" fullWidth>
-                    Login
-                  </Button>
+                <Link to="/login" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="outline" fullWidth>Connexion</Button>
                 </Link>
-                <Link 
-                  to="/signup" 
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <Button variant="primary" fullWidth>
-                    Sign up
-                  </Button>
+                <Link to="/signup" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="primary" fullWidth>Créer un compte</Button>
                 </Link>
               </div>
             )}
