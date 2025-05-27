@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './contexts/AuthContext';
 
 // Pages
@@ -11,15 +11,10 @@ import TestGP from './pages/TestGP';
 import CreateLeaguePage from './pages/CreateLeaguePage';
 import LeaguesPage from './pages/LeaguesPage';
 import LeagueDetailsPage from './pages/LeagueDetailsPage';
-
 import TestLeagueUsersPage from './pages/TestLeagueUsersPage';
-
 import Standing from './pages/Standing';
-
-
 import Profile from './pages/Profile';
 import BetPage from './pages/BetPage'; 
-// Components
 
 // Protected route component
 interface ProtectedRouteProps {
@@ -38,7 +33,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
 
 function App() {
   const { isAuthenticated } = useAuth();
-  
+  const location = useLocation();
+
   return (
     <Routes>
       <Route 
@@ -53,7 +49,7 @@ function App() {
         path="/home" 
         element={
           <ProtectedRoute>
-            <Home />
+            <Home key={location.key} />
           </ProtectedRoute>
         } 
       />
@@ -61,7 +57,7 @@ function App() {
         path="/races" 
         element={
           <ProtectedRoute>
-            <Races />
+            <Races key={location.key} />
           </ProtectedRoute>
         } 
       />
@@ -69,33 +65,25 @@ function App() {
         path="/standings" 
         element={
           <ProtectedRoute>
-            <Standing />
+            <Standing key={location.key} />
           </ProtectedRoute>
         } 
       />
       <Route path="/test-gp" element={<TestGP />} />
-      
-      {/* Catch-all route */}
       <Route path="*" element={<Navigate to="/" replace />} />
-      {/* Create League Page */}
       <Route path="/leagues/create" element={<CreateLeaguePage />} />
-      {/* Leagues Page */}
       <Route path="/leagues" element={<LeaguesPage />} />
-      {/* League Details Page */}
-       <Route path="/leagues/:leagueId" element={<LeagueDetailsPage />} />
-
-      {/* Test League Users Page */}
+      <Route path="/leagues/:leagueId" element={<LeagueDetailsPage />} />
       <Route path="/test-league-users" element={<TestLeagueUsersPage />} />
-
-       <Route
+      <Route
         path="/profile"
         element={
           <ProtectedRoute>
             <Profile />
           </ProtectedRoute>
         }
-        />
-        <Route 
+      />
+      <Route 
         path="/bet/:gpId" 
         element={
           <ProtectedRoute>
@@ -103,8 +91,6 @@ function App() {
           </ProtectedRoute>
         } 
       />
-
-
     </Routes>
   );
 }
