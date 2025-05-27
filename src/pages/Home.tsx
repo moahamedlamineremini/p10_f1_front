@@ -11,6 +11,8 @@ import { GP, League, User } from '../types';
 import { ChevronRight, Trophy, Flag, Users, Plus, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { formatDate, getTimeRemaining } from '../utils/dateUtils';
+import { useLocation } from 'react-router-dom';
+
 
 const Home: React.FC = () => {
   const { user: authUser, isAuthenticated } = useAuth();
@@ -69,6 +71,15 @@ const safeNextGP = nextGPData?.getNextGP
       setUserLeagues(leaguesData.getMyLeagues.slice(0, 9));
     }
   }, [upcomingRacesData, leaguesData]);
+
+  const location = useLocation();
+
+useEffect(() => {
+  if (refetchLeagues) {
+    refetchLeagues();
+  }
+}, [location.key]);
+
 
   // Countdown timer effect
   useEffect(() => {
