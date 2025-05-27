@@ -92,18 +92,18 @@ const BetPage: React.FC = () => {
 
   return (
     <Layout>
-      <div className="max-w-md mx-auto py-8 px-4">
-        <h1 className="text-2xl text-white font-bold mb-6">
+      <div className="max-w-xl mx-auto py-12 px-6 bg-black text-white">
+        <h1 className="text-3xl font-extrabold text-red-600 mb-8 text-center uppercase tracking-wide">
           {loadingGP ? (
             'Chargement...'
           ) : gpData?.gp?.track ? (
-            <>Parier sur le GP de {gpData.gp.track.country_name} — {gpData.gp.track.track_name}</>
+            <>Parier sur {gpData.gp.track.country_name} — {gpData.gp.track.track_name}</>
           ) : (
-            `Parier sur le Grand Prix #${gpId}`
+            `Parier sur GP #${gpId}`
           )}
         </h1>
 
-        <div className="space-y-4">
+        <div className="space-y-6 bg-neutral-900 p-6 rounded-xl border border-neutral-700">
           <Select
             label="Pilote en P10"
             options={
@@ -128,12 +128,22 @@ const BetPage: React.FC = () => {
             onChange={(e) => setSelectedDNF(Number(e.target.value))}
           />
 
-          <Button onClick={handleSubmit} variant="primary" fullWidth>
+          <Button
+            onClick={handleSubmit}
+            variant="primary"
+            fullWidth
+            className="bg-red-600 hover:bg-red-700 text-white font-bold uppercase"
+          >
             {existingBet ? 'Modifier le pari' : 'Valider le pari'}
           </Button>
 
           {existingBet && (
-            <Button onClick={handleDelete} variant="outline" fullWidth>
+            <Button
+              onClick={handleDelete}
+              variant="outline"
+              fullWidth
+              className="border border-red-600 text-red-600 hover:bg-red-600 hover:text-white font-bold uppercase"
+            >
               Supprimer le pari
             </Button>
           )}
