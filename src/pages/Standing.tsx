@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery } from '@apollo/client';
+import { useLocation } from 'react-router-dom';
+
 import {
   GET_ALL_GPS,
   GET_GP_CLASSEMENT,
@@ -32,20 +34,18 @@ const Standing: React.FC = () => {
     }
   );
 
-  useEffect(() => {
-    if (!selectedGP && view === 'gp' && allGpsData?.getAllGPs?.length > 0) {
-      const defaultGp = allGpsData.getAllGPs.find(
-        (gp: any) => gp.id_api_races === '1748131200000'
-      );
-      if (defaultGp) {
-        setSelectedGP(defaultGp.id_api_races.toString());
-      }
-    }
+  
+  const location = useLocation();
 
-    if (!selectedLeague && view === 'league' && myLeaguesData?.getMyLeagues?.length > 0) {
-      setSelectedLeague(myLeaguesData.getMyLeagues[0].id.toString());
-    }
-  }, [allGpsData, selectedGP, view, myLeaguesData, selectedLeague]);
+useEffect(() => {
+  const searchParams = new URLSearchParams(location.search);
+  const leagueIdFromURL = searchParams.get('leagueId');
+  if (leagueIdFromURL && !selectedLeague) {
+    setView('league');
+    setSelectedLeague(leagueIdFromURL);
+  }
+}, [location.search, selectedLeague]);
+
 
   return (
     <Layout>
