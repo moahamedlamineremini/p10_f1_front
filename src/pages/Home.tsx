@@ -283,11 +283,18 @@ const safeNextGP = nextGPData?.getNextGP
         ) : userLeagues.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {userLeagues.map(league => (
-              <LeagueCard 
-                key={league.id} 
-                league={league} 
-                onJoin={handleJoinLeague}
-              />
+             <Card key={league.id}>
+             <CardHeader className="flex justify-between items-center">
+               <div>
+                 <h3 className="text-lg font-semibold">{league.name}</h3>
+                 <p className="text-accent-400 text-sm">{league.private ? 'Private' : 'Public'} League</p>
+               </div>
+               <Button variant="outline" size="sm" onClick={() => navigate(`/standings?leagueId=${league.id}`)}>
+                 View Standings
+               </Button>
+             </CardHeader>
+           </Card>
+           
             ))}
           </div>
         ) : (
